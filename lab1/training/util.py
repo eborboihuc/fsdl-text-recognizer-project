@@ -10,8 +10,8 @@ from text_recognizer.models.base import Model
 from training.gpu_util_sampler import GPUUtilizationSampler
 
 
-EARLY_STOPPING = True
-GPU_UTIL_SAMPLER = True
+EARLY_STOPPING = True # keep network stop when reach goal accuracy
+GPU_UTIL_SAMPLER = True # tell the GPU utilization
 
 
 def train_model(model: Model, dataset: Dataset, epochs: int, batch_size: int, gpu_ind: Optional[int]=None, use_wandb=False) -> Model:
