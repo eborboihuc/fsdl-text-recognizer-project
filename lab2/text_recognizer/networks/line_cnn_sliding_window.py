@@ -51,6 +51,14 @@ def line_cnn_sliding_window(
 
     ##### Your code below (Lab 2)
 
+    num_patch = int((image_width - window_width) / window_stride) + 1 # Get how many patches we use
+    width = int(num_patch / output_length) # size of each kernel along the sliding
+    
+    convnet_outputs_flat = Reshape((num_patch, 128, 1))(convnet_outputs)
+    patch_output = Conv2D(num_classes, kernel_size=(width, 128), strides=(width, 1), activation='softmax')(convnet_outputs_flat)
+    print(patch_output)
+    softmax_output = Lambda(lambda x: tf.squeeze(x, 2)[:, :output_length, :])(patch_output)
+ 
     ##### Your code above (Lab 2)
 
     model = KerasModel(inputs=image_input, outputs=softmax_output)

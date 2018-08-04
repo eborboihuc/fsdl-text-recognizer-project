@@ -43,7 +43,13 @@ def line_lstm(input_shape, output_shape, window_width=20, window_stride=14, deco
     lstm = CuDNNLSTM if gpu_present else LSTM
 
     ##### Your code below (Lab 3)
-
+    encoder_output = lstm(encoder_dim, return_sequences=False, go_backwards=True)(convnet_outputs)
+    # (encoder_dim)
+    repeated_encoding = RepeatVector(output_length)(encoder_output)
+    # (max_length, encoder_dim)
+    decoder_output = lstm(decoder_dim, return_sequences=True)(repeated_encoding)
+    # decoder_output_dropout = Dropout(0.2)(decoder_output)
+    # (output_length, decoder_dim)
     ##### Your code above (Lab 3)
 
     softmax_output = TimeDistributed(Dense(num_classes, activation='softmax'))(decoder_output)
